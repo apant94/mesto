@@ -1,0 +1,182 @@
+.root {
+  background-color: #000000;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.page {
+    min-width: 320px;
+    max-width: 425px;
+    margin: 0 auto;
+    padding: 28px 0 36px;
+    font-family: 'Inter', 'Arial', 'Helvetica', sans-serif;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+.header {
+  margin: 0;
+  min-height: 56px;
+  border-bottom: 1px solid rgba(84, 84, 84, .7);
+}
+
+.header__logo {
+  background-image: url(../images/logo.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 103.74px;
+  height: 24.4px;
+  margin-left: 27px;
+}
+
+.main {
+  margin: 38px 19px 48px;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #FFFFFF;
+  align-items: center;
+}
+
+.avatar {
+  background-image: url(../images/profile-avatar.jpeg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+}
+
+.profile__info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 22.25px auto 0;
+  width: 100%;
+}
+
+.profile__first-line {
+  display: flex;
+  align-items: baseline;
+}
+
+.profile__title {
+  margin: 0;
+  /* align-self: center; */
+  font-weight: 500;
+  font-size: 27px;
+  line-height: 1.22;
+}
+
+/* ПОДВИНУТЬ КНОПКУ ВПРАВО ОТ ТАЙТЛА ЧТОБЫ ТАЙТЛ БЫЛ ОТЦЕНТРОВАН А КНОПКА НЕТ */
+.profile__edit {
+  width: 18px;
+  height: 18px;
+  background-image: url(../images/edit-button.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: transparent;
+  border: none;
+  margin-left: 10px;
+  padding: 0;
+  transition: .5s;
+}
+
+.profile__edit:hover {
+  opacity: .6;
+  cursor: pointer;
+}
+
+.profile__subtitle {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.21;
+  margin: 14px 0 0;
+}
+
+.profile__add {
+  width: 282px;
+  height: 50px;
+  margin: 36px auto 0;
+  background-image: url(../images/add-button.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  transition: .5s;
+}
+
+.profile__add:hover {
+  opacity: .6;
+  cursor: pointer;
+}
+
+.elements {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  grid-template-columns: 100%;
+  margin: 36px 0;
+  row-gap: 20px;
+}
+
+.element__list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.element {
+  width: 282px;
+  height: 361px;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  margin: 0;
+}
+
+.element__photo {
+  width: 282px;
+  height: 282px;
+  border-radius: 10px 10px 0 0;
+}
+
+.element__title-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 25px 15px auto 21px;
+  align-items: baseline;
+}
+
+.element__title {
+  margin: 0;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1.21;
+}
+
+.element__like {
+  background-image: url(../images/like.svg);
+  background-repeat: no-repeat;
+  background-color: transparent;
+  height: 19px;
+  width: 22px;
+  transition: .5s;
+  border: none;
+}
+
+.element__like:hover {
+  opacity: .5;
+  cursor: pointer;
+}
+
+.element__like:focus {
+  background-image: url(../images/like-active.png);
+  opacity: 1;
+}
