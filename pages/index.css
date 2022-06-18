@@ -6,7 +6,6 @@
 
 .page {
     min-width: 320px;
-    max-width: 425px;
     margin: 0 auto;
     padding: 28px 0 36px;
     font-family: 'Inter', 'Arial', 'Helvetica', sans-serif;
@@ -18,10 +17,30 @@
     text-rendering: optimizeLegibility;
   }
 
+@media screen and (min-width: 768px) {
+  .page {
+    min-width: 768px;
+    padding: 45px 0 60px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .page {
+    min-width: 1280px;
+  }
+}
+
 .header {
-  margin: 0;
+  margin: 0 auto;
   min-height: 56px;
   border-bottom: 1px solid rgba(84, 84, 84, .7);
+}
+
+@media screen and (min-width: 768px) {
+  .header {
+    max-width: 880px;
+    min-height: 74px;
+  }
 }
 
 .header__logo {
@@ -33,8 +52,30 @@
   margin-left: 27px;
 }
 
+@media screen and (min-width: 768px) {
+  .header__logo {
+    margin-left: 34px;
+    width: 142px;
+    height: 33px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .header__logo {
+    margin-left: 0;
+  }
+}
+
 .main {
-  margin: 38px 19px 48px;
+  max-width: 282px;
+  margin: 42px auto 48px;
+}
+
+@media screen and (min-width: 768px) {
+  .main {
+    max-width: 880px;
+    margin: 40px auto 67px;
+  }
 }
 
 .profile {
@@ -43,6 +84,20 @@
   justify-content: space-between;
   color: #FFFFFF;
   align-items: center;
+}
+
+@media screen and (min-width: 768px) {
+  .profile {
+    flex-direction: row;
+    height: 120px;
+    margin: 0 34px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .profile {
+    margin: 0 auto;
+  }
 }
 
 .avatar {
@@ -62,6 +117,14 @@
   width: 100%;
 }
 
+@media screen and (min-width: 768px) {
+  .profile__info {
+    margin: 0 auto 0 30px;
+    width: fit-content;
+    align-items: flex-start;
+  }
+}
+
 .profile__first-line {
   display: flex;
   align-items: baseline;
@@ -69,10 +132,16 @@
 
 .profile__title {
   margin: 0;
-  /* align-self: center; */
   font-weight: 500;
   font-size: 27px;
   line-height: 1.22;
+}
+
+@media screen and (min-width: 768px) {
+  .profile__title {
+    font-size: 42px;
+    line-height: 1.14;
+  }
 }
 
 /* ПОДВИНУТЬ КНОПКУ ВПРАВО ОТ ТАЙТЛА ЧТОБЫ ТАЙТЛ БЫЛ ОТЦЕНТРОВАН А КНОПКА НЕТ */
@@ -89,6 +158,14 @@
   transition: .5s;
 }
 
+@media screen and (min-width: 768px) {
+  .profile__edit {
+    width: 24px;
+    height: 24px;
+    margin-left: 18px;
+  }
+}
+
 .profile__edit:hover {
   opacity: .6;
   cursor: pointer;
@@ -99,6 +176,14 @@
   font-size: 14px;
   line-height: 1.21;
   margin: 14px 0 0;
+}
+
+@media screen and (min-width: 768px) {
+  .profile__subtitle {
+    font-size: 18px;
+    line-height: 1.22;
+    margin: 16px 0 0;
+  }
 }
 
 .profile__add {
@@ -114,27 +199,58 @@
   transition: .5s;
 }
 
+@media screen and (min-width: 768px) {
+  .profile__add {
+    width: 150px;
+    height: 50px;
+    margin: 0;
+    background-image: url(../images/add-button-small.svg);
+  }
+}
+
 .profile__add:hover {
   opacity: .6;
   cursor: pointer;
 }
 
 .elements {
-  display: grid;
-  grid-template-rows: repeat(6, 1fr);
-  grid-template-columns: 100%;
   margin: 36px 0;
-  row-gap: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  .elements {
+    margin: 51px 0;
+  }
 }
 
 .element__list {
   list-style-type: none;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  grid-template-columns: 282px;
+  row-gap: 20px;
+  justify-content: center;
+}
+
+@media screen and (min-width: 600px) {
+  .element__list {
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 282px);
+    column-gap: 17px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .element__list {
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 282px);
+  }
 }
 
 .element {
-  width: 282px;
+  width: 100%;
   height: 361px;
   background-color: #FFFFFF;
   border-radius: 10px;
@@ -179,4 +295,38 @@
 .element__like:focus {
   background-image: url(../images/like-active.png);
   opacity: 1;
+}
+
+.footer {
+  max-width: 282px;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 600px) {
+  .footer {
+    max-width: calc(282px * 2 + 17px);
+    margin: 0 auto;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .footer {
+    max-width: calc(282px * 3 + 17px * 2);
+    margin: 0 auto;
+  }
+}
+
+.footer__content {
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.21;
+  color: #545454;
+}
+
+@media screen and (min-width: 900px) {
+  .footer__content {
+    font-size: 18px;
+    line-height: 1.22;
+  }
 }
