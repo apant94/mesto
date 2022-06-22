@@ -1,0 +1,14 @@
+.popup__subtitle {
+    margin-top: 28px;
+    height: 14px;
+    width: 100%;
+    padding: 0 0 13px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.21;
+    border: none;
+    border-bottom: .5px solid rgba(0, 0, 0, .2);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }

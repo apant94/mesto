@@ -1,0 +1,13 @@
+.popup__wrapper {
+    width: 238px;
+    height: 272px;
+    margin: 25px auto;
+  }
+  
+  @media screen and (min-width: 600px) {
+    .popup__wrapper {
+      width: 358px;
+      height: 259px;
+      margin: 34px auto 37px;
+    }
+  }
