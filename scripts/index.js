@@ -3,6 +3,7 @@ const elements = document.querySelector('.elements__list');
 const element = document.querySelector('.element');
 
 const popup = document.querySelector('.popup');
+const popups = Array.from(document.querySelectorAll('.popup'));
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 const popupImage = document.querySelector('.popup_image');
@@ -27,10 +28,21 @@ renderItems();
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  // вешаем событие для закрытия по эскейпу
+  document.addEventListener('keydown', closePopupByEsc)
 };
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+};
+
+// закрытие форм по нажатию esc
+function closePopupByEsc (evt) {
+  if(evt.key === 'Escape') {
+    const popupOpened = document.querySelector('.popup_opened');
+    closePopup(popupOpened);
+    document.removeEventListener('keydown', closePopupByEsc)
+  };
 };
 
 btnEdit.addEventListener('click', () => {
@@ -38,10 +50,25 @@ btnEdit.addEventListener('click', () => {
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
 });
-btnAdd.addEventListener('click', () => {openPopup(popupAdd)});
+
+btnAdd.addEventListener('click', () => {
+  openPopup(popupAdd);
+});
+
+// закрытие формы по клику на крестик
 btnClose.forEach((item) => {
   const popup = item.closest('.popup');
   item.addEventListener('click', () => {closePopup(popup)});
+});
+
+// закрытие формы по клику на оверлей
+popups.forEach((item) => {
+  const popup = item.closest('.popup');
+  popup.addEventListener('click', (evt) => {
+  if (evt.target === evt.currentTarget) {
+    closePopup(popup);
+  };
+  });
 });
 
 function createItem(newItem) {
