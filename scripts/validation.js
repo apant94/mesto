@@ -1,27 +1,27 @@
 // валидация
 
 // Добавляем функционал при ошибке в поле формы
-const showInputError = (formElement, inputElement, errorMessage) => {
+const showInputError = (formElement, inputElement, errorMessage, settings) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add('popup__text_type_error');
+  inputElement.classList.add(settings.inputErrorClass);
   errorElement.textContent = errorMessage;
-  errorElement.classList.add('popup__text-error');
+  errorElement.classList.add(settings.errorClass);
 };
 
 // Прячем функционал ошибки
-const hideInputError = (formElement, inputElement) => {
+const hideInputError = (formElement, inputElement, settings) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove('popup__text_type_error');
-  errorElement.classList.remove('popup__text-error');
+  inputElement.classList.remove(settings.inputErrorClass);
+  errorElement.classList.remove(settings.errorClass);
   errorElement.textContent = '';
 };
 
 // При невалидном элементе внутри поля формы - добавляем ошибку, при валидном - прячем ошибку
-const isValid = (formElement, inputElement) => {
+const isValid = (formElement, inputElement, settings) => {
   if(!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
+    showInputError(formElement, inputElement, inputElement.validationMessage, settings);
   } else {
-    hideInputError(formElement, inputElement);
+    hideInputError(formElement, inputElement, settings);
   }
 };
 
@@ -33,7 +33,7 @@ const hasInvalidInput = (inputList) => {
 };
 
 // Стилизуем активную/неактивную кнопку 
-const toggleButtonState = (inputList, buttonElement) => {
+const toggleButtonState = (inputList, buttonElement, settings) => {
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add('popup__submit_inactive');
     buttonElement.setAttribute('disabled', true);
@@ -54,8 +54,8 @@ const setEventListeners = (formElement) => {
 
   // далее каждый элемент массива проверяем на валидность чтобы стилизовать поле и кнопку
   inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', function () {
-      isValid(formElement, inputElement);
+    inputElement.addEventListener('input', function (settings) {
+      isValid(formElement, inputElement, settings);
       toggleButtonState(inputList, buttonElement);
     });
   });
@@ -69,13 +69,11 @@ const enableValidation = () => {
   });
 };
 
-enableValidation(
-//   {
-//   formSelector: '.popup__container',
-//   inputSelector: '.popup__text',
-//   submitButtonSelector: '.popup__submit',
-//   inactiveButtonClass: 'popup__submit_inactive',
-//   inputErrorClass: 'popup__text_type_error',
-//   errorClass: 'popup__text-error'
-// }
-); 
+enableValidation({
+  formSelector: '.popup__container',
+  inputSelector: '.popup__text',
+  submitButtonSelector: '.popup__submit',
+  inactiveButtonClass: 'popup__submit_inactive',
+  inputErrorClass: 'popup__text_type_error',
+  errorClass: 'popup__text-error'
+});
