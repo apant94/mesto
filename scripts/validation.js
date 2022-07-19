@@ -35,37 +35,37 @@ const hasInvalidInput = (inputList) => {
 // Стилизуем активную/неактивную кнопку 
 const toggleButtonState = (inputList, buttonElement, settings) => {
   if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add('popup__submit_inactive');
+    buttonElement.classList.add(settings.inactiveButtonClass);
     buttonElement.setAttribute('disabled', true);
   } else {
-    buttonElement.classList.remove('popup__submit_inactive');
+    buttonElement.classList.remove(settings.inactiveButtonClass);
     buttonElement.removeAttribute('disabled');
   }
 };
 
 // устанавливаем слушатели на событие инпут
-const setEventListeners = (formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll('.popup__text'));
-  const buttonElement = formElement.querySelector('.popup__submit');
-
-  // установим изначально неактивную кнопку на кнопку формы add
-  const buttonAdd = document.querySelector('.popup__submit-add');
-  toggleButtonState(inputList, buttonAdd);
+const setEventListeners = (formElement, settings) => {
+  const inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
+  const buttonElement = formElement.querySelector(settings.submitButtonSelector);
 
   // далее каждый элемент массива проверяем на валидность чтобы стилизовать поле и кнопку
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function (settings) {
       isValid(formElement, inputElement, settings);
-      toggleButtonState(inputList, buttonElement);
+      toggleButtonState(inputList, buttonElement, settings);
     });
   });
+
+  // установим изначально неактивную кнопку на кнопку формы add
+  const buttonAdd = document.querySelector('.popup__submit-add');
+  toggleButtonState(inputList, buttonAdd, settings);
 };
 
-const enableValidation = () => {
-  const formList = Array.from(document.querySelectorAll('.popup__container'));
+const enableValidation = (settings) => {
+  const formList = Array.from(document.querySelectorAll(settings.formSelector));
   formList.forEach((formElement) => {
     formElement.addEventListener('submit', (evt) => {evt.preventDefault()});
-    setEventListeners(formElement);
+    setEventListeners(formElement, settings);
   });
 };
 
