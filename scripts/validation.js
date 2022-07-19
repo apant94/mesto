@@ -50,7 +50,7 @@ const setEventListeners = (formElement, settings) => {
 
   // далее каждый элемент массива проверяем на валидность чтобы стилизовать поле и кнопку
   inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', function (settings) {
+    inputElement.addEventListener('input', function () {
       isValid(formElement, inputElement, settings);
       toggleButtonState(inputList, buttonElement, settings);
     });
