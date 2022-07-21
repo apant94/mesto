@@ -56,9 +56,8 @@ const setEventListeners = (formElement, settings) => {
     });
   });
 
-  // установим изначально неактивную кнопку на кнопку формы add
-  const buttonAdd = document.querySelector('.popup__submit-add');
-  toggleButtonState(inputList, buttonAdd, settings);
+  // установим изначально неактивную кнопку на все формы
+  toggleButtonState(inputList, buttonElement, settings);
 };
 
 const enableValidation = (settings) => {
@@ -69,11 +68,13 @@ const enableValidation = (settings) => {
   });
 };
 
-enableValidation({
+const configValidation = {
   formSelector: '.popup__container',
   inputSelector: '.popup__text',
   submitButtonSelector: '.popup__submit',
   inactiveButtonClass: 'popup__submit_inactive',
   inputErrorClass: 'popup__text_type_error',
   errorClass: 'popup__text-error'
-});
+};
+
+enableValidation(configValidation);

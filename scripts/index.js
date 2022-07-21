@@ -1,16 +1,16 @@
 const elementTemplate = document.querySelector('#element').content;
-const elements = document.querySelector('.elements__list');
-const element = document.querySelector('.element');
+const cardsContainer = document.querySelector('.elements__list');
 
-const popup = document.querySelector('.popup');
 const popups = Array.from(document.querySelectorAll('.popup'));
+const formEdit = document.querySelector('.popup__container_edit');
+const formAdd = document.querySelector('.popup__container_add');
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 const popupImage = document.querySelector('.popup_image');
 
 const btnEdit = document.querySelector('.profile__edit');
 const btnAdd = document.querySelector('.profile__add');
-const btnClose = document.querySelectorAll('.popup__close');
+const btnsClose = document.querySelectorAll('.popup__close');
 
 const nameInput = popupEdit.querySelector('.popup__text_value_name');
 const jobInput = popupEdit.querySelector('.popup__text_value_job');
@@ -19,6 +19,9 @@ const jobProfile = document.querySelector('.profile__job');
 
 const placeInput = popupAdd.querySelector('.popup__text_value_place');
 const linkInput = popupAdd.querySelector('.popup__text_value_link');
+
+const image = document.querySelector('.popup__image-item');
+const imageName = document.querySelector('.popup__image-name');
 
 function renderItems() {
   initialCards.forEach(renderItem);
@@ -34,6 +37,7 @@ function openPopup(popup) {
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupByEsc);
 };
 
 // закрытие форм по нажатию esc
@@ -41,7 +45,6 @@ function closePopupByEsc (evt) {
   if(evt.key === 'Escape') {
     const popupOpened = document.querySelector('.popup_opened');
     closePopup(popupOpened);
-    document.removeEventListener('keydown', closePopupByEsc)
   };
 };
 
@@ -56,7 +59,7 @@ btnAdd.addEventListener('click', () => {
 });
 
 // закрытие формы по клику на крестик
-btnClose.forEach((item) => {
+btnsClose.forEach((item) => {
   const popup = item.closest('.popup');
   item.addEventListener('click', () => {closePopup(popup)});
 });
@@ -73,9 +76,12 @@ popups.forEach((item) => {
 
 function createItem(newItem) {
   const card = elementTemplate.querySelector('.element').cloneNode(true);
-  card.querySelector('.element__title').textContent = newItem.name;
-  card.querySelector('.element__photo').src = newItem.link;
-  card.querySelector('.element__photo').alt = newItem.name;
+  const elementPhoto = card.querySelector('.element__photo');
+  const elementTitle = card.querySelector('.element__title');
+
+  elementTitle.textContent = newItem.name;
+  elementPhoto.src = newItem.link;
+  elementPhoto.alt = newItem.name;
 
   card.querySelector('.element__like').addEventListener('click', (evt) => {
     evt.target.classList.toggle('element__like_active');
@@ -85,17 +91,18 @@ function createItem(newItem) {
   evt.target.closest('.element').remove();
   });
 
-  card.querySelector('.element__photo').addEventListener('click', (evt) => {
+  elementPhoto.addEventListener('click', (evt) => {
     openPopup(popupImage);
-    document.querySelector('.popup__image-item').src = evt.target.src;
-    document.querySelector('.popup__image-name').textContent = evt.target.closest('.element').textContent;
+    image.src = evt.target.src;
+    imageName.textContent = evt.target.closest('.element').textContent;
+    image.alt = evt.target.closest('.element').textContent;
   })
 
   return card;
 };
 
 function renderItem(newItem) {
-  elements.prepend(createItem(newItem));
+  cardsContainer.prepend(createItem(newItem));
 };
 
 function editFormSubmitHandler(evt) {
@@ -105,12 +112,16 @@ function editFormSubmitHandler(evt) {
   closePopup(popupEdit);
 };
 
-document.querySelector('.popup__container').addEventListener('submit', editFormSubmitHandler);
+formEdit.addEventListener('submit', editFormSubmitHandler);
 
 function addFormSubmitHandler(evt) {
+  const btnSubmitAdd = document.querySelector('.popup__submit-add');
   evt.preventDefault();
   renderItem({name: placeInput.value, link: linkInput.value});
   closePopup(popupAdd);
+  formAdd.reset();
+  btnSubmitAdd.classList.add('popup__submit_inactive');
+  btnSubmitAdd.setAttribute('disabled', true);
 }
 
-document.querySelector('.popup__container_add').addEventListener('submit', addFormSubmitHandler); 
+formAdd.addEventListener('submit', addFormSubmitHandler); 
