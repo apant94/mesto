@@ -1,4 +1,3 @@
-const elementTemplate = document.querySelector('#element').content;
 const cardsContainer = document.querySelector('.elements__list');
 
 const popups = Array.from(document.querySelectorAll('.popup'));
@@ -6,7 +5,6 @@ const formEdit = document.querySelector('.popup__container_edit');
 const formAdd = document.querySelector('.popup__container_add');
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
-const popupImage = document.querySelector('.popup_image');
 
 const btnEdit = document.querySelector('.profile__edit');
 const btnAdd = document.querySelector('.profile__add');
@@ -20,21 +18,33 @@ const jobProfile = document.querySelector('.profile__job');
 const placeInput = popupAdd.querySelector('.popup__text_value_place');
 const linkInput = popupAdd.querySelector('.popup__text_value_link');
 
-const image = document.querySelector('.popup__image-item');
-const imageName = document.querySelector('.popup__image-name');
+import { initialCards } from './cards.js';
+import Card from './Card.js';
 
-function renderItems() {
-  initialCards.forEach(renderItem);
-}
+// создаем образ карты из класса Card, вставляем его в конец массива
+const renderItem = (item) => {
+  const card = new Card(item, '#element').generateCard();
+  cardsContainer.prepend(card);
+};
 
-renderItems();
+// реализуем рендер для КАЖДОГО элемента массива
+const renderItems = () => {
+  initialCards.forEach((item) => {
+    renderItem(item);
+  });
+};
 
+// ВЫЗЫВАЕМ рендер для всех элементов массива
+renderItems(initialCards);
+
+// функция открытия форм
 function openPopup(popup) {
   popup.classList.add('popup_opened');
   // вешаем событие для закрытия по эскейпу
   document.addEventListener('keydown', closePopupByEsc)
 };
 
+// функция закрытия форм
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closePopupByEsc);
@@ -48,23 +58,26 @@ function closePopupByEsc (evt) {
   };
 };
 
+// вешаем событие на кнопку редактирования профиля
 btnEdit.addEventListener('click', () => {
   openPopup(popupEdit);
+  // потягиваем при открытии формы редактирования профиля значения из лендинга
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
 });
 
+// вешаем событие на кнопку добавления карты
 btnAdd.addEventListener('click', () => {
   openPopup(popupAdd);
 });
 
-// закрытие формы по клику на крестик
+// закрытие формы по клику на КРЕСТИК
 btnsClose.forEach((item) => {
   const popup = item.closest('.popup');
   item.addEventListener('click', () => {closePopup(popup)});
 });
 
-// закрытие формы по клику на оверлей
+// закрытие формы по клику на ОВЕРЛЕЙ
 popups.forEach((item) => {
   const popup = item.closest('.popup');
   popup.addEventListener('click', (evt) => {
@@ -74,37 +87,7 @@ popups.forEach((item) => {
   });
 });
 
-function createItem(newItem) {
-  const card = elementTemplate.querySelector('.element').cloneNode(true);
-  const elementPhoto = card.querySelector('.element__photo');
-  const elementTitle = card.querySelector('.element__title');
-
-  elementTitle.textContent = newItem.name;
-  elementPhoto.src = newItem.link;
-  elementPhoto.alt = newItem.name;
-
-  card.querySelector('.element__like').addEventListener('click', (evt) => {
-    evt.target.classList.toggle('element__like_active');
-  });
-
-  card.querySelector('.element__trash').addEventListener('click', (evt) => {
-  evt.target.closest('.element').remove();
-  });
-
-  elementPhoto.addEventListener('click', (evt) => {
-    openPopup(popupImage);
-    image.src = evt.target.src;
-    imageName.textContent = evt.target.closest('.element').textContent;
-    image.alt = evt.target.closest('.element').textContent;
-  })
-
-  return card;
-};
-
-function renderItem(newItem) {
-  cardsContainer.prepend(createItem(newItem));
-};
-
+// дальше вешаем слушатели с САБМИТОМ на форму редактирования профиля
 function editFormSubmitHandler(evt) {
   evt.preventDefault();
   nameProfile.textContent = nameInput.value;
@@ -114,6 +97,7 @@ function editFormSubmitHandler(evt) {
 
 formEdit.addEventListener('submit', editFormSubmitHandler);
 
+// дальше вешаем слушатели с САБМИТОМ на форму добавления карты
 function addFormSubmitHandler(evt) {
   const btnSubmitAdd = document.querySelector('.popup__submit-add');
   evt.preventDefault();
@@ -124,4 +108,11 @@ function addFormSubmitHandler(evt) {
   btnSubmitAdd.setAttribute('disabled', true);
 }
 
-formAdd.addEventListener('submit', addFormSubmitHandler); 
+formAdd.addEventListener('submit', addFormSubmitHandler);
+
+// ВАЛИДАЦИЯ
+import { configValidation, FormValidator } from './FormValidator.js';
+const validationNameInput = new FormValidator(configValidation, '#name-input').enableValidation();
+const validationJobInput = new FormValidator(configValidation, '#job-input').enableValidation();
+const validationPlaceInput = new FormValidator(configValidation, '#place-input').enableValidation();
+const validationLinkInput = new FormValidator(configValidation, '#link-input').enableValidation();
