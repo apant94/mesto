@@ -15,12 +15,12 @@ class FormValidator {
     this._inactiveButtonClass = configValidation.inactiveButtonClass;
     this._inputErrorClass = configValidation.inputErrorClass;
     this._errorClass = configValidation.errorClass;
-    this._formElement = formElement;
+    this._formElement = document.querySelector(formElement);
   };
 
   // Добавляем функционал при ошибке в поле формы
   _showInputError(inputElement, errorMessage) {
-    const errorElement = document.querySelector(`.${inputElement.id}-error`);
+    const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.add(this._inputErrorClass);
     errorElement.textContent = errorMessage;
     errorElement.classList.add(this._errorClass);
@@ -28,7 +28,7 @@ class FormValidator {
 
   // Прячем функционал ошибки
   _hideInputError(inputElement) {
-    const errorElement = document.querySelector(`.${inputElement.id}-error`);
+    const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.remove(this._inputErrorClass);
     errorElement.classList.remove(this._errorClass);
     errorElement.textContent = '';
@@ -63,8 +63,8 @@ class FormValidator {
 
   // устанавливаем слушатели на событие инпут
   _setEventListeners() {
-  this._inputList = Array.from(document.querySelectorAll(this._inputSelector));
-  this._buttonElement = document.querySelector(this._submitButtonSelector);
+  this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
+  this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
 
   // далее каждый элемент массива проверяем на валидность чтобы стилизовать поле и кнопку
   this._inputList.forEach((inputElement) => {

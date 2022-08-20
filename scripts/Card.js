@@ -1,7 +1,8 @@
 import { image,
   imageName,
   popupImage,
-  openPopup } from './index.js';
+  openPopup
+ } from './index.js';
 
 export default class Card {
   constructor(data, templateSelector) {

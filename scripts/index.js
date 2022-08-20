@@ -115,7 +115,7 @@ function addFormSubmitHandler(evt) {
   validationPopupAdd.toggleButtonState();
   // btnSubmitAdd.classList.add('popup__submit_inactive');
   // btnSubmitAdd.setAttribute('disabled', true);
-}
+};
 
 formAdd.addEventListener('submit', addFormSubmitHandler);
 
