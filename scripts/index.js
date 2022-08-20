@@ -18,13 +18,22 @@ const jobProfile = document.querySelector('.profile__job');
 const placeInput = popupAdd.querySelector('.popup__text_value_place');
 const linkInput = popupAdd.querySelector('.popup__text_value_link');
 
+const image = document.querySelector('.popup__image-item');
+const imageName = document.querySelector('.popup__image-name');
+const popupImage = document.querySelector('.popup_image');
+
 import { initialCards } from './cards.js';
 import Card from './Card.js';
+import { configValidation, FormValidator } from './FormValidator.js';
+
+const createCard = (item) => {
+  const card = new Card(item, '#element').generateCard();
+  return card;
+};
 
 // создаем образ карты из класса Card, вставляем его в конец массива
-const renderItem = (item) => {
-  const card = new Card(item, '#element').generateCard();
-  cardsContainer.prepend(card);
+const renderItem = (card) => {
+  cardsContainer.prepend(createCard(card));
 };
 
 // реализуем рендер для КАЖДОГО элемента массива
@@ -71,19 +80,18 @@ btnAdd.addEventListener('click', () => {
   openPopup(popupAdd);
 });
 
-// закрытие формы по клику на КРЕСТИК
-btnsClose.forEach((item) => {
-  const popup = item.closest('.popup');
-  item.addEventListener('click', () => {closePopup(popup)});
-});
+// закрытие формы по клику на КРЕСТИК 
+btnsClose.forEach((item) => { 
+  const popup = item.closest('.popup'); 
+  item.addEventListener('click', () => {closePopup(popup)}); 
+}); 
 
 // закрытие формы по клику на ОВЕРЛЕЙ
 popups.forEach((item) => {
-  const popup = item.closest('.popup');
-  popup.addEventListener('click', (evt) => {
+  item.addEventListener('click', (evt) => {
   if (evt.target === evt.currentTarget) {
-    closePopup(popup);
-  };
+    closePopup(item);
+    };
   });
 });
 
@@ -104,15 +112,17 @@ function addFormSubmitHandler(evt) {
   renderItem({name: placeInput.value, link: linkInput.value});
   closePopup(popupAdd);
   formAdd.reset();
-  btnSubmitAdd.classList.add('popup__submit_inactive');
-  btnSubmitAdd.setAttribute('disabled', true);
+  validationPopupAdd.toggleButtonState();
+  // btnSubmitAdd.classList.add('popup__submit_inactive');
+  // btnSubmitAdd.setAttribute('disabled', true);
 }
 
 formAdd.addEventListener('submit', addFormSubmitHandler);
 
 // ВАЛИДАЦИЯ
-import { configValidation, FormValidator } from './FormValidator.js';
-const validationNameInput = new FormValidator(configValidation, '#name-input').enableValidation();
-const validationJobInput = new FormValidator(configValidation, '#job-input').enableValidation();
-const validationPlaceInput = new FormValidator(configValidation, '#place-input').enableValidation();
-const validationLinkInput = new FormValidator(configValidation, '#link-input').enableValidation();
+const validationPopupEdit = new FormValidator(configValidation, '#popup-edit');
+validationPopupEdit.enableValidation();
+const validationPopupAdd = new FormValidator(configValidation, '#popup-add');
+validationPopupAdd.enableValidation();
+
+export {image, imageName, popupImage, openPopup};

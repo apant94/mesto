@@ -19,71 +19,67 @@ class FormValidator {
   };
 
   // Добавляем функционал при ошибке в поле формы
-_showInputError(formElement, inputElement, errorMessage) {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add(this._inputErrorClass);
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add(this._errorClass);
-};
+  _showInputError(inputElement, errorMessage) {
+    const errorElement = document.querySelector(`.${inputElement.id}-error`);
+    inputElement.classList.add(this._inputErrorClass);
+    errorElement.textContent = errorMessage;
+    errorElement.classList.add(this._errorClass);
+  };
 
-// Прячем функционал ошибки
-_hideInputError(formElement, inputElement) {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove(this._inputErrorClass);
-  errorElement.classList.remove(this._errorClass);
-  errorElement.textContent = '';
-};
+  // Прячем функционал ошибки
+  _hideInputError(inputElement) {
+    const errorElement = document.querySelector(`.${inputElement.id}-error`);
+    inputElement.classList.remove(this._inputErrorClass);
+    errorElement.classList.remove(this._errorClass);
+    errorElement.textContent = '';
+  };
 
-// При невалидном элементе внутри поля формы - добавляем ошибку, при валидном - прячем ошибку
-_isValid (formElement, inputElement) {
-  if(!inputElement.validity.valid) {
-    this._showInputError(formElement, inputElement, inputElement.validationMessage);
-  } else {
-    this._hideInputError(formElement, inputElement);
-  }
-};
+  // При невалидном элементе внутри поля формы - добавляем ошибку, при валидном - прячем ошибку
+  _isValid (inputElement) {
+    if(!inputElement.validity.valid) {
+      this._showInputError(inputElement, inputElement.validationMessage);
+    } else {
+      this._hideInputError(inputElement);
+    }
+  };
 
-// Проверем наличие хоть одного невалидного элемента внутри массива
-_hasInvalidInput(inputList) {
-  return inputList.some((inputElement) => {
-    return !inputElement.validity.valid;
-  })
-};
+  // Проверем наличие хоть одного невалидного элемента внутри массива
+  _hasInvalidInput() {
+    return this._inputList.some((inputElement) => {
+      return !inputElement.validity.valid;
+    });
+  };
 
-// Стилизуем активную/неактивную кнопку 
-_toggleButtonState(inputList, buttonElement) {
-  if (this._hasInvalidInput(inputList)) {
-    buttonElement.classList.add(this._inactiveButtonClass);
-    buttonElement.setAttribute('disabled', true);
-  } else {
-    buttonElement.classList.remove(this._inactiveButtonClass);
-    buttonElement.removeAttribute('disabled');
-  }
-};
+  // Стилизуем активную/неактивную кнопку 
+  toggleButtonState() {
+    if (this._hasInvalidInput()) {
+      this._buttonElement.classList.add(this._inactiveButtonClass);
+      this._buttonElement.setAttribute('disabled', true);
+    } else {
+      this._buttonElement.classList.remove(this._inactiveButtonClass);
+      this._buttonElement.removeAttribute('disabled');
+    }
+  };
 
   // устанавливаем слушатели на событие инпут
-  _setEventListeners(formElement) {
-  const inputList = Array.from(formElement.querySelectorAll(this._inputSelector));
-  const buttonElement = formElement.querySelector(this._submitButtonSelector);
+  _setEventListeners() {
+  this._inputList = Array.from(document.querySelectorAll(this._inputSelector));
+  this._buttonElement = document.querySelector(this._submitButtonSelector);
 
   // далее каждый элемент массива проверяем на валидность чтобы стилизовать поле и кнопку
-  inputList.forEach((inputElement) => {
+  this._inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
-      this._isValid(formElement, inputElement);
-      this._toggleButtonState(inputList, buttonElement);
+      this._isValid(inputElement);
+      this.toggleButtonState();
     });
   });
 
   // установим изначально неактивную кнопку на все формы
-  this._toggleButtonState(inputList, buttonElement);
+  this.toggleButtonState();
 };
 
   enableValidation() {
-    const formList = Array.from(document.querySelectorAll(this._formSelector));
-    formList.forEach((formElement) => {
-      formElement.addEventListener('submit', (evt) => {evt.preventDefault()});
-      this._setEventListeners(formElement);
-    });
+    this._setEventListeners();
   };
 };
 
