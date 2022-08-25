@@ -81,6 +81,6 @@ class FormValidator {
   enableValidation() {
     this._setEventListeners();
   };
-};
+}
 
 export { configValidation, FormValidator };

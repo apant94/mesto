@@ -1,13 +1,11 @@
-import { image,
-  imageName,
-  popupImage,
-  openPopup
- } from './index.js';
+// import {  image, imageName, popupImage } from '../utils/constants.js';
+// import { openPopup } from '../pages/index.js';
 
 export default class Card {
-  constructor(data, templateSelector) {
+  constructor({data, handleCardClick}, templateSelector) {
     this._name = data.name;
     this._link = data.link;
+    this._handleCardClick = handleCardClick;
     this._templateSelector = templateSelector;
   };
 
@@ -34,12 +32,12 @@ export default class Card {
     this._card.remove();
   };
 
-  _handleCardPhoto() {
-    openPopup(popupImage);
-    image.src = this._link;
-    imageName.textContent = this._name;
-    image.alt = this._name;
-  };
+  // _handleCardPhoto() {
+  //   openPopup(popupImage);
+  //   image.src = this._link;
+  //   imageName.textContent = this._name;
+  //   image.alt = this._name;
+  // };
 
   _setEventListeners() {
     this._card.querySelector('.element__like').addEventListener('click', (evt) => {
@@ -51,7 +49,7 @@ export default class Card {
     });
 
     this._card.querySelector('.element__photo').addEventListener('click', () => {
-      this._handleCardPhoto();
+      this._handleCardClick({ name: this._name, link: this._link });
     });
   };
 };
