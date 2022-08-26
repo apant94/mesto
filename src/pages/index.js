@@ -1,4 +1,4 @@
-import { initialCards, cardsContainer, popups, formEdit, formAdd, popupEdit, popupAdd, btnEdit, btnAdd, nameInput, jobInput, nameProfile, jobProfile, placeInput, linkInput, popupImage } from '../utils/constants.js';
+import { initialCards, popupEdit, popupAdd, btnEdit, btnAdd, nameInput, jobInput, nameProfile, jobProfile, placeInput, linkInput, popupImage } from '../utils/constants.js';
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
 import { configValidation, FormValidator } from '../components/FormValidator.js';
@@ -52,7 +52,7 @@ btnAdd.addEventListener('click', () => {
 
 // реализуем попап редактирования профиля
 // подтягиваем данные со страницы в форму
-const userInfo = new UserInfo({ nameSelector: '.profile__name', jobSelector: '.profile__job' });
+const userInfo = new UserInfo({ nameSelector: nameProfile, jobSelector: jobProfile });
 const editPopup = new PopupWithForm({ popupSelector: popupEdit,
   handleFormSubmit: () => {
     userInfo.setUserInfo({ name: nameInput.value, job: jobInput.value });

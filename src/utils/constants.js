@@ -25,11 +25,6 @@ const initialCards = [
     }
   ];
 
-const cardsContainer = document.querySelector('.elements__list');
-
-const popups = Array.from(document.querySelectorAll('.popup'));
-const formEdit = document.querySelector('.popup__container_edit');
-const formAdd = document.querySelector('.popup__container_add');
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 
@@ -48,4 +43,4 @@ const image = document.querySelector('.popup__image-item');
 const imageName = document.querySelector('.popup__image-name');
 const popupImage = document.querySelector('.popup_image');
 
-export { initialCards, cardsContainer, popups, formEdit, formAdd, popupEdit, popupAdd, btnEdit, btnAdd, nameInput, jobInput, nameProfile, jobProfile, placeInput, linkInput, image, imageName, popupImage }; 
+export { initialCards, popupEdit, popupAdd, btnEdit, btnAdd, nameInput, jobInput, nameProfile, jobProfile, placeInput, linkInput, image, imageName, popupImage }; 
