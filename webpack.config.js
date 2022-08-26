@@ -1,4 +1,6 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: { main: './src/pages/index.js' },
@@ -15,12 +17,16 @@ module.exports = {
     open: true
   },
   module: {
-    rules: [
-      {
+    rules: [{
       test: /\.js$/,
       use: 'babel-loader',
       exclude: '/node_modules/'
-      }
-    ]
-  }
+    }]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html'
+    }),
+    new CleanWebpackPlugin(),
+  ]
 };
