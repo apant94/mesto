@@ -35,7 +35,6 @@ const popupAdd = document.querySelector('.popup_add');
 
 const btnEdit = document.querySelector('.profile__edit');
 const btnAdd = document.querySelector('.profile__add');
-const btnsClose = document.querySelectorAll('.popup__close');
 
 const nameInput = popupEdit.querySelector('.popup__text_value_name');
 const jobInput = popupEdit.querySelector('.popup__text_value_job');
@@ -49,4 +48,4 @@ const image = document.querySelector('.popup__image-item');
 const imageName = document.querySelector('.popup__image-name');
 const popupImage = document.querySelector('.popup_image');
 
-export { initialCards, cardsContainer, popups, formEdit, formAdd, popupEdit, popupAdd, btnEdit, btnAdd, btnsClose, nameInput, jobInput, nameProfile, jobProfile, placeInput, linkInput, image, imageName, popupImage }; 
+export { initialCards, cardsContainer, popups, formEdit, formAdd, popupEdit, popupAdd, btnEdit, btnAdd, nameInput, jobInput, nameProfile, jobProfile, placeInput, linkInput, image, imageName, popupImage }; 
