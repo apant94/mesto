@@ -25,6 +25,15 @@ const initialCards = [
     }
   ];
 
+const configValidation = {
+  formSelector: '.popup__container',
+  inputSelector: '.popup__text',
+  submitButtonSelector: '.popup__submit',
+  inactiveButtonClass: 'popup__submit_inactive',
+  inputErrorClass: 'popup__text_type_error',
+  errorClass: 'popup__text-error'
+};
+
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 
@@ -39,8 +48,6 @@ const jobProfile = document.querySelector('.profile__job');
 const placeInput = popupAdd.querySelector('.popup__text_value_place');
 const linkInput = popupAdd.querySelector('.popup__text_value_link');
 
-const image = document.querySelector('.popup__image-item');
-const imageName = document.querySelector('.popup__image-name');
 const popupImage = document.querySelector('.popup_image');
 
-export { initialCards, popupEdit, popupAdd, btnEdit, btnAdd, nameInput, jobInput, nameProfile, jobProfile, placeInput, linkInput, image, imageName, popupImage }; 
+export { initialCards, configValidation, popupEdit, popupAdd, btnEdit, btnAdd, nameInput, jobInput, nameProfile, jobProfile, placeInput, linkInput, popupImage }; 

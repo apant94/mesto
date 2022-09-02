@@ -1,13 +1,6 @@
-const configValidation = {
-    formSelector: '.popup__container',
-    inputSelector: '.popup__text',
-    submitButtonSelector: '.popup__submit',
-    inactiveButtonClass: 'popup__submit_inactive',
-    inputErrorClass: 'popup__text_type_error',
-    errorClass: 'popup__text-error'
-  };
+import { configValidation } from '../utils/constants.js';
 
-class FormValidator {
+export default class FormValidator {
   constructor(configValidation, formElement) {
     this._formSelector = configValidation.formSelector;
     this._inputSelector = configValidation.inputSelector;
@@ -34,6 +27,13 @@ class FormValidator {
     errorElement.textContent = '';
   };
 
+  // сброс ошибок
+  resetError() {
+    this._inputList.forEach((inputElement) => {
+      this._hideInputError(inputElement);
+    })
+  };
+
   // При невалидном элементе внутри поля формы - добавляем ошибку, при валидном - прячем ошибку
   _isValid (inputElement) {
     if(!inputElement.validity.valid) {
@@ -50,14 +50,24 @@ class FormValidator {
     });
   };
 
-  // Стилизуем активную/неактивную кнопку 
-  toggleButtonState() {
+  // cтилизуем неактивную кнопку
+  disableButton() {
+    this._buttonElement.classList.add(this._inactiveButtonClass);
+    this._buttonElement.setAttribute('disabled', true);
+  };
+
+  // стилизуем активную кнопку
+  _ableButton() {
+    this._buttonElement.classList.remove(this._inactiveButtonClass);
+    this._buttonElement.removeAttribute('disabled');
+  };
+
+  // функция изменения активности кнопки при условии
+  _toggleButtonState() {
     if (this._hasInvalidInput()) {
-      this._buttonElement.classList.add(this._inactiveButtonClass);
-      this._buttonElement.setAttribute('disabled', true);
+      this.disableButton();
     } else {
-      this._buttonElement.classList.remove(this._inactiveButtonClass);
-      this._buttonElement.removeAttribute('disabled');
+      this._ableButton();
     }
   };
 
@@ -70,17 +80,15 @@ class FormValidator {
   this._inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
       this._isValid(inputElement);
-      this.toggleButtonState();
+      this._toggleButtonState();
     });
   });
 
   // установим изначально неактивную кнопку на все формы
-  this.toggleButtonState();
+  this._toggleButtonState();
 };
 
   enableValidation() {
     this._setEventListeners();
   };
 }
-
-export { configValidation, FormValidator };

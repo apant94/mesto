@@ -1,8 +1,8 @@
 import './index.css';
-import { initialCards, popupEdit, popupAdd, btnEdit, btnAdd, nameInput, jobInput, nameProfile, jobProfile, placeInput, linkInput, popupImage } from '../utils/constants.js';
+import { initialCards, configValidation, popupEdit, popupAdd, btnEdit, btnAdd, nameInput, jobInput, nameProfile, jobProfile, placeInput, linkInput, popupImage } from '../utils/constants.js';
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
-import { configValidation, FormValidator } from '../components/FormValidator.js';
+import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
@@ -37,30 +37,32 @@ const imagePopup = new PopupWithImage(popupImage);
 imagePopup.setEventListeners();
 
 // реализуем попап добавления карточки
-const addPopup = new PopupWithForm({ popupSelector: popupAdd,
+const popupAddCard = new PopupWithForm({ popupElement: popupAdd,
   handleFormSubmit: (item) => {
     const newCard = createCard({ name: placeInput.value, link: linkInput.value });
     cardsList.addItem(newCard);
-    addPopup.close();
+    popupAddCard.close();
   }
 });
-addPopup.setEventListeners();
+popupAddCard.setEventListeners();
 
 // вешаем событие на кнопку добавления карты
 btnAdd.addEventListener('click', () => {
-  addPopup.open();
+  popupAddCard.open();
+  validationPopupAdd.disableButton();
+  validationPopupAdd.resetError();
 });
 
 // реализуем попап редактирования профиля
 // подтягиваем данные со страницы в форму
 const userInfo = new UserInfo({ nameSelector: nameProfile, jobSelector: jobProfile });
-const editPopup = new PopupWithForm({ popupSelector: popupEdit,
+const popupEditProfile = new PopupWithForm({ popupElement: popupEdit,
   handleFormSubmit: () => {
     userInfo.setUserInfo({ name: nameInput.value, job: jobInput.value });
-    editPopup.close();
+    popupEditProfile.close();
   }
 });
-editPopup.setEventListeners();
+popupEditProfile.setEventListeners();
 
 // вешаем событие на кнопку редактирования профиля
 btnEdit.addEventListener('click', () => {
@@ -68,7 +70,8 @@ btnEdit.addEventListener('click', () => {
   const info = userInfo.getUserInfo();
   nameInput.value = info.name;
   jobInput.value = info.job;
-  editPopup.open();
+  popupEditProfile.open();
+  validationPopupEdit.resetError();
 });
 
 // ВАЛИДАЦИЯ
