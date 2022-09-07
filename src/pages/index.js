@@ -1,11 +1,23 @@
 import './index.css';
-import { initialCards, configValidation, popupEdit, popupAdd, btnEdit, btnAdd, nameInput, jobInput, nameProfile, jobProfile, placeInput, linkInput, popupImage } from '../utils/constants.js';
+import { configValidation, popupEdit, popupAdd, btnEdit, btnAdd, nameInput, jobInput, nameProfile, jobProfile, avatarProfile, placeInput, linkInput, popupImage } from '../utils/constants.js';
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
+import Api from '../components/Api.js';
+
+// работа с сервером
+const api = new Api('https://mesto.nomoreparties.co/v1/cohort-49', {
+  headers: {
+    authorization: 'fc816947-ecdd-436d-955b-418421d31994',
+    'Content-Type': 'application/json'
+  }
+});
+
+// подтягиваем данные со страницы в профиль
+const userInfo = new UserInfo({ nameSelector: nameProfile, jobSelector: jobProfile, avatarSelector: avatarProfile });
 
 // создаем карточку
 const createCard = (item) => {
@@ -30,7 +42,17 @@ const renderInitialCards = () => {
 };
 
 // выведем изначальные карточки на страницу
-renderInitialCards();
+// renderInitialCards();
+
+// получаем данные профиля и карточки с сервера
+Promise.all([api.getCards(), api.getProfileInfo()])
+.then(([cards, userData]) => {
+    userInfo.setUserInfo(userData);
+    userInfo.setUserAvatar(userData);
+    // userId = userInfo.getUserId(userData);
+    // выведем изначальные карточки на страницу
+    renderInitialCards();
+})
 
 // реализуем попап открытия фото
 const imagePopup = new PopupWithImage(popupImage);
@@ -53,12 +75,10 @@ btnAdd.addEventListener('click', () => {
   validationPopupAdd.resetError();
 });
 
-// реализуем попап редактирования профиля
-// подтягиваем данные со страницы в форму
-const userInfo = new UserInfo({ nameSelector: nameProfile, jobSelector: jobProfile });
+// реализуем форму редактирования профиля
 const popupEditProfile = new PopupWithForm({ popupElement: popupEdit,
   handleFormSubmit: () => {
-    userInfo.setUserInfo({ name: nameInput.value, job: jobInput.value });
+    userInfo.setUserInfo({ name: nameInput.value, about: jobInput.value });
     popupEditProfile.close();
   }
 });
@@ -67,9 +87,10 @@ popupEditProfile.setEventListeners();
 // вешаем событие на кнопку редактирования профиля
 btnEdit.addEventListener('click', () => {
   // потягиваем при открытии формы редактирования профиля значения из лендинга
-  const info = userInfo.getUserInfo();
+  // const info = userInfo.getUserInfo();
+  const info = api.getProfileInfo();
   nameInput.value = info.name;
-  jobInput.value = info.job;
+  jobInput.value = info.about;
   popupEditProfile.open();
   validationPopupEdit.resetError();
 });
@@ -79,4 +100,6 @@ const validationPopupEdit = new FormValidator(configValidation, '#popup-edit');
 validationPopupEdit.enableValidation();
 const validationPopupAdd = new FormValidator(configValidation, '#popup-add');
 validationPopupAdd.enableValidation();
+
+
 
