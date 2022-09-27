@@ -9,9 +9,9 @@ import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
 
 // работа с сервером
-const api = new Api('https://mesto.nomoreparties.co/v1/cohort-49', {
+const api = new Api('https://mesto.nomoreparties.co/v1/cohort-51', {
   headers: {
-    authorization: 'fc816947-ecdd-436d-955b-418421d31994',
+    authorization: '38d1ddce-71b0-4527-b8f7-2e586ecd1edf',
     'Content-Type': 'application/json'
   }
 });
@@ -31,15 +31,21 @@ const createCard = (item) => {
 
 // создаем секцию с карточками
 const cardsList = new Section({ 
-  items: initialCards,
   renderer: (card) => {
     cardsList.addItem(createCard(card));
   },
 }, '.elements__list');
 
-const renderInitialCards = () => {
-  cardsList.renderItems();
+// функция загрузки изначальный карточек
+const renderInitialCards = (cards) => {
+  cardsList.renderItems(cards);
 };
+
+// функция загрузки данных профиля в форму
+// const setUserInfo = ({name: nameValue, about: aboutValue}) => {
+//   nameInput.value = nameValue;
+//   jobInput.value = aboutValue;
+// };
 
 // выведем изначальные карточки на страницу
 // renderInitialCards();
@@ -48,11 +54,11 @@ const renderInitialCards = () => {
 Promise.all([api.getCards(), api.getProfileInfo()])
 .then(([cards, userData]) => {
     userInfo.setUserInfo(userData);
-    userInfo.setUserAvatar(userData);
+    // userInfo.setUserAvatar(userData);
     // userId = userInfo.getUserId(userData);
     // выведем изначальные карточки на страницу
-    renderInitialCards();
-})
+    renderInitialCards(cards);
+});
 
 // реализуем попап открытия фото
 const imagePopup = new PopupWithImage(popupImage);
@@ -76,19 +82,31 @@ btnAdd.addEventListener('click', () => {
 });
 
 // реализуем форму редактирования профиля
-const popupEditProfile = new PopupWithForm({ popupElement: popupEdit,
-  handleFormSubmit: () => {
-    userInfo.setUserInfo({ name: nameInput.value, about: jobInput.value });
-    popupEditProfile.close();
+const popupEditProfile = new PopupWithForm({ 
+  popupElement: popupEdit,
+  handleFormSubmit: (inputValues) => {
+    userInfo.setUserInfo(inputValues);
+ // userInfo.setUserInfo({ name: nameInput.value, about: jobInput.value });
+    api.setProfileInfo(inputValues)
+    .then((res) => {
+      popupEditProfile.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }
+  // handleFormSubmit: () => {
+  //   userInfo.setUserInfo({ name: nameInput.value, about: jobInput.value });
+  //   popupEditProfile.close();
+  // }
 });
 popupEditProfile.setEventListeners();
 
 // вешаем событие на кнопку редактирования профиля
 btnEdit.addEventListener('click', () => {
   // потягиваем при открытии формы редактирования профиля значения из лендинга
-  // const info = userInfo.getUserInfo();
-  const info = api.getProfileInfo();
+  const info = userInfo.getUserInfo();
+  // setUserInfo(userInfo.getUserInfo());
   nameInput.value = info.name;
   jobInput.value = info.about;
   popupEditProfile.open();
