@@ -51,16 +51,16 @@ export default class Api {
     .then(this._checkStatus);
   };
 
-  putLike(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+  putLike(item) {
+    return fetch(`${this._baseUrl}/cards/${item._id}/likes`, {
       method: 'PUT',
       headers: this._headers
     })
     .then(this._checkStatus);
   };
 
-  deleteLike(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+  deleteLike(item) {
+    return fetch(`${this._baseUrl}/cards/${item._id}/likes`, {
       method: 'DELETE',
       headers: this._headers
     })
