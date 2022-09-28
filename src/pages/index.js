@@ -41,15 +41,6 @@ const renderInitialCards = (cards) => {
   cardsList.renderItems(cards);
 };
 
-// функция загрузки данных профиля в форму
-// const setUserInfo = ({name: nameValue, about: aboutValue}) => {
-//   nameInput.value = nameValue;
-//   jobInput.value = aboutValue;
-// };
-
-// выведем изначальные карточки на страницу
-// renderInitialCards();
-
 // получаем данные профиля и карточки с сервера
 Promise.all([api.getCards(), api.getProfileInfo()])
 .then(([cards, userData]) => {
@@ -66,10 +57,20 @@ imagePopup.setEventListeners();
 
 // реализуем попап добавления карточки
 const popupAddCard = new PopupWithForm({ popupElement: popupAdd,
-  handleFormSubmit: (item) => {
-    const newCard = createCard({ name: placeInput.value, link: linkInput.value });
-    cardsList.addItem(newCard);
-    popupAddCard.close();
+  handleFormSubmit: (cardData) => {
+    console.log(cardData);
+    api.setCard(cardData)
+    .then((card) => {
+      const newCard = createCard(card);
+      cardsList.addItem(newCard);
+      popupAddCard.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    // const newCard = createCard({ name: placeInput.value, link: linkInput.value });
+    // cardsList.addItem(newCard);
+    // popupAddCard.close();
   }
 });
 popupAddCard.setEventListeners();
