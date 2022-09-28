@@ -20,7 +20,9 @@
 @import url(../blocks/element/__photo/element__photo.css);
 @import url(../blocks/element/__title-container/element__title-container.css);
 @import url(../blocks/element/__title/element__title.css);
+@import url(../blocks/element/__column/element__column.css);
 @import url(../blocks/element/__like/element__like.css);
+@import url(../blocks/element/__counter/element__counter.css);
 @import url(../blocks/element/__like/_active/element__like_active.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__content/footer__content.css);

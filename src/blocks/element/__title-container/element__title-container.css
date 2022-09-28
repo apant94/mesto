@@ -1,6 +1,7 @@
 .element__title-container {
     display: flex;
     justify-content: space-between;
-    margin: 25px 20px;
-    align-items: baseline;
+    align-items: center;
+    margin: 0 20px;
+    height: 79px;
   }
