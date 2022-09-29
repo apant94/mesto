@@ -1,10 +1,11 @@
 import './index.css';
-import { configValidation, popupEdit, popupAdd, btnEdit, btnAdd, nameInput, jobInput, nameProfile, jobProfile, avatarProfile, placeInput, linkInput, popupImage } from '../utils/constants.js';
+import { configValidation, popupEdit, popupAdd, popupDelete, btnEdit, btnAdd, nameInput, jobInput, nameProfile, jobProfile, avatarProfile, placeInput, linkInput, popupImage } from '../utils/constants.js';
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import PopupWithConfirm from '../components/PopupWithConfirm.js';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
 
@@ -21,11 +22,14 @@ const userInfo = new UserInfo({ nameSelector: nameProfile, jobSelector: jobProfi
 
 // создаем карточку
 const createCard = (item) => {
-  const card = new Card({ data: item,
-  handleCardClick: (data) => {
+  const card = new Card({name: item.name, link: item.link, likes: item.likes, cardId: item._id}, '#element', {
+    handleCardDelete: () => {
+      popupDeleteCard.open(card)
+    },
+    handleCardClick: (data) => {
     imagePopup.open(data);
-  },
-  }, '#element').generateCard();
+    },
+  }).generateCard();
   return card;
 };
 
@@ -113,6 +117,21 @@ btnEdit.addEventListener('click', () => {
   popupEditProfile.open();
   validationPopupEdit.resetError();
 });
+
+const popupDeleteCard = new PopupWithConfirm({
+  popupElement: popupDelete,
+  handleFormSubmit: (card) => {
+    api.deleteCard(card.cardId)
+    .then(() => {
+    card.deleteCard();
+    popupDeleteCard.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+});
+popupDeleteCard.setEventListeners();
 
 // ВАЛИДАЦИЯ
 const validationPopupEdit = new FormValidator(configValidation, '#popup-edit');

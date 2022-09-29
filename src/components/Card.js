@@ -1,10 +1,12 @@
 export default class Card {
-  constructor({data, handleCardClick}, templateSelector) {
+  constructor(data, templateSelector, {handleCardClick, handleCardDelete}) {
     this._name = data.name;
     this._link = data.link;
     this._likes = data.likes;
+    this._cardId = data.cardId;
     this._handleCardClick = handleCardClick;
     this._templateSelector = templateSelector;
+    this._handleCardDelete = handleCardDelete;
   };
 
   _getTemplate() {
@@ -24,13 +26,18 @@ export default class Card {
     return this._card;
   };
 
+  deleteCard() {
+    this._card.remove();
+    // this._element = null;
+  }
+
   _handleLikeButton(evt) {
     evt.target.classList.toggle('element__like_active');
   };
 
-  _handleCardRemoveButton() {
-    this._card.remove();
-  };
+  // _handleCardRemoveButton() {
+  //   this._card.remove();
+  // };
 
   _setEventListeners() {
     this._card.querySelector('.element__like').addEventListener('click', (evt) => {
@@ -38,7 +45,7 @@ export default class Card {
     });
 
     this._card.querySelector('.element__trash').addEventListener('click', () => {
-      this._handleCardRemoveButton();
+      this._handleCardDelete();
     });
 
     this._card.querySelector('.element__photo').addEventListener('click', () => {
