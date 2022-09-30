@@ -62,7 +62,6 @@ imagePopup.setEventListeners();
 // реализуем попап добавления карточки
 const popupAddCard = new PopupWithForm({ popupElement: popupAdd,
   handleFormSubmit: (cardData) => {
-    console.log(cardData);
     api.setCard(cardData)
     .then((card) => {
       const newCard = createCard(card);
@@ -118,10 +117,12 @@ btnEdit.addEventListener('click', () => {
   validationPopupEdit.resetError();
 });
 
+// реализуем форму удаления карточки
 const popupDeleteCard = new PopupWithConfirm({
   popupElement: popupDelete,
   handleFormSubmit: (card) => {
-    api.deleteCard(card.cardId)
+    console.log(card);
+    api.deleteCard(card._cardId)
     .then(() => {
     card.deleteCard();
     popupDeleteCard.close();

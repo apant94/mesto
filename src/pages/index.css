@@ -32,10 +32,12 @@
 @import url(../blocks/popup/__close/popup__close.css);
 @import url(../blocks/popup/__wrapper/popup__wrapper.css);
 @import url(../blocks/popup/__definition/popup__definition.css);
+@import url(../blocks/popup/__definition/_delete/popup__definition_delete.css);
 @import url(../blocks/popup/__text/popup__text.css);
 @import url(../blocks/popup/__text/_type/popup__text_type_error.css);
 @import url(../blocks/popup/__text-error/popup__text-error.css);
 @import url(../blocks/popup/__submit/popup__submit.css);
+@import url(../blocks/popup/__submit/_delete/popup__submit_delete);
 @import url(../blocks/popup/__submit/_inactive/popup__submit_inactive.css);
 @import url(../blocks/popup/_image/popup_image.css);
 @import url(../blocks/popup/__image-container/popup__image-container.css);
