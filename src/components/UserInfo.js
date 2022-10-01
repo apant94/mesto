@@ -10,15 +10,15 @@ export default class UserInfo {
     about: this._job.textContent };
   };
 
+  getUserId(data) {
+    const userId = data._id;
+    return userId;
+  }
+
   setUserInfo(data) {
     this._name.textContent = data.name;
     this._job.textContent  = data.about;
   };
-
-  // setUserInfo({name, about}) {
-  //   this._name.textContent = name;
-  //   this._job.textContent  = about;
-  // };
 
   setUserAvatar(inputValues) {
     this._avatar.style.backgroundImage = `url('${inputValues.avatar}')`

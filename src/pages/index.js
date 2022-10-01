@@ -22,7 +22,7 @@ const userInfo = new UserInfo({ nameSelector: nameProfile, jobSelector: jobProfi
 
 // создаем карточку
 const createCard = (item) => {
-  const card = new Card({name: item.name, link: item.link, likes: item.likes, cardId: item._id}, '#element', {
+  const card = new Card({name: item.name, link: item.link, likes: item.likes, cardId: item._id, userId: userId, ownerIs: item.owner._id}, '#element', {
     handleCardDelete: () => {
       popupDeleteCard.open(card)
     },
@@ -45,14 +45,16 @@ const renderInitialCards = (cards) => {
   cardsList.renderItems(cards);
 };
 
+let userId;
+
 // получаем данные профиля и карточки с сервера
 Promise.all([api.getCards(), api.getProfileInfo()])
 .then(([cards, userData]) => {
-    userInfo.setUserInfo(userData);
-    // userInfo.setUserAvatar(userData);
-    // userId = userInfo.getUserId(userData);
-    // выведем изначальные карточки на страницу
-    renderInitialCards(cards);
+  userInfo.setUserInfo(userData);
+  userId = userInfo.getUserId(userData);
+  // userInfo.setUserAvatar(userData);
+  // выведем изначальные карточки на страницу
+  renderInitialCards(cards);
 });
 
 // реализуем попап открытия фото
@@ -121,7 +123,6 @@ btnEdit.addEventListener('click', () => {
 const popupDeleteCard = new PopupWithConfirm({
   popupElement: popupDelete,
   handleFormSubmit: (card) => {
-    console.log(card);
     api.deleteCard(card._cardId)
     .then(() => {
     card.deleteCard();
