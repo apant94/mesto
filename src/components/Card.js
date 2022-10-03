@@ -1,9 +1,9 @@
 export default class Card {
-  constructor(data, templateSelector, {handleCardClick, handleCardDelete}) {
+  constructor({data, handleCardClick, handleCardDelete}, templateSelector) {
     this._name = data.name;
     this._link = data.link;
     this._likes = data.likes;
-    this._cardId = data.cardId;
+    this._id = data._id;
     this._userId = data.userId;
     this._ownerId = data.ownerId;
     this._handleCardClick = handleCardClick;
@@ -29,6 +29,10 @@ export default class Card {
     this._handleDeleteBtnState;
     return this._card;
   };
+
+  getId() {
+    return this._id;
+  }
 
   deleteCard() {
     this._card.remove();

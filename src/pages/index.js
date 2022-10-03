@@ -22,14 +22,14 @@ const userInfo = new UserInfo({ nameSelector: nameProfile, jobSelector: jobProfi
 
 // создаем карточку
 const createCard = (item) => {
-  const card = new Card({name: item.name, link: item.link, likes: item.likes, cardId: item._id, userId: userId, ownerIs: item.owner._id}, '#element', {
+  const card = new Card({data: item,
     handleCardDelete: () => {
       popupDeleteCard.open(card)
     },
     handleCardClick: (data) => {
-    imagePopup.open(data);
+      imagePopup.open(data);
     },
-  }).generateCard();
+  }, '#element').generateCard();
   return card;
 };
 
