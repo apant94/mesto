@@ -23,12 +23,21 @@ const userInfo = new UserInfo({ nameSelector: nameProfile, jobSelector: jobProfi
 // создаем карточку
 const createCard = (item) => {
   const card = new Card({data: item,
-    handleCardDelete: () => {
-      popupDeleteCard.open(card)
-    },
     handleCardClick: (data) => {
       imagePopup.open(data);
     },
+    handleCardDelete: (card) => {
+      console.log(card);
+      popupDeleteCard.open(card);
+      api.deleteCard(card.getId())
+      .then(() => {
+        card.deleteCard();
+        popupDeleteCard.close();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
   }, '#element').generateCard();
   return card;
 };
@@ -122,16 +131,6 @@ btnEdit.addEventListener('click', () => {
 // реализуем форму удаления карточки
 const popupDeleteCard = new PopupWithConfirm({
   popupElement: popupDelete,
-  handleFormSubmit: (card) => {
-    api.deleteCard(card._cardId)
-    .then(() => {
-    card.deleteCard();
-    popupDeleteCard.close();
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-  }
 });
 popupDeleteCard.setEventListeners();
 
