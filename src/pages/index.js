@@ -27,17 +27,8 @@ const createCard = (item) => {
       imagePopup.open(data);
     },
     handleCardDelete: (card) => {
-      console.log(card);
       popupDeleteCard.open(card);
-      api.deleteCard(card.getId())
-      .then(() => {
-        card.deleteCard();
-        popupDeleteCard.close();
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    }
+    },
   }, '#element').generateCard();
   return card;
 };
@@ -131,6 +122,16 @@ btnEdit.addEventListener('click', () => {
 // реализуем форму удаления карточки
 const popupDeleteCard = new PopupWithConfirm({
   popupElement: popupDelete,
+  handleFormSubmit: (card) => {
+    api.deleteCard(card.getId())
+    .then(() => {
+      card.deleteCard();
+      popupDeleteCard.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
 });
 popupDeleteCard.setEventListeners();
 
