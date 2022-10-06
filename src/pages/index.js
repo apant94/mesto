@@ -1,5 +1,5 @@
 import './index.css';
-import { configValidation, popupEdit, popupAdd, popupDelete, btnEdit, btnAdd, nameInput, jobInput, nameProfile, jobProfile, avatarProfile, placeInput, linkInput, popupImage } from '../utils/constants.js';
+import { configValidation, popupEdit, popupAdd, popupDelete, btnEdit, btnAdd, nameInput, jobInput, nameProfile, jobProfile, avatarProfile, popupImage } from '../utils/constants.js';
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
 import FormValidator from '../components/FormValidator.js';
@@ -17,12 +17,15 @@ const api = new Api('https://mesto.nomoreparties.co/v1/cohort-51', {
   }
 });
 
+let userId;
+
 // подтягиваем данные со страницы в профиль
 const userInfo = new UserInfo({ nameSelector: nameProfile, jobSelector: jobProfile, avatarSelector: avatarProfile });
 
 // создаем карточку
-const createCard = (item) => {
+const createCard = (item, userId) => {
   const card = new Card({data: item,
+    ownerId: userId,
     handleCardClick: (data) => {
       imagePopup.open(data);
     },
@@ -41,20 +44,18 @@ const cardsList = new Section({
 }, '.elements__list');
 
 // функция загрузки изначальный карточек
-const renderInitialCards = (cards) => {
-  cardsList.renderItems(cards);
+const renderInitialCards = (cards, userData) => {
+  cardsList.renderItems(cards, userData._id);
 };
-
-let userId;
 
 // получаем данные профиля и карточки с сервера
 Promise.all([api.getCards(), api.getProfileInfo()])
 .then(([cards, userData]) => {
   userInfo.setUserInfo(userData);
-  userId = userInfo.getUserId(userData);
+  userId = userData._id;
   // userInfo.setUserAvatar(userData);
   // выведем изначальные карточки на страницу
-  renderInitialCards(cards);
+  renderInitialCards(cards, userId);
 });
 
 // реализуем попап открытия фото
@@ -66,7 +67,7 @@ const popupAddCard = new PopupWithForm({ popupElement: popupAdd,
   handleFormSubmit: (cardData) => {
     api.setCard(cardData)
     .then((card) => {
-      const newCard = createCard(card);
+      const newCard = createCard(card, userId);
       cardsList.addItem(newCard);
       popupAddCard.close();
     })

@@ -10,11 +10,6 @@ export default class UserInfo {
     about: this._job.textContent };
   };
 
-  getUserId(data) {
-    const userId = data._id;
-    return userId;
-  }
-
   setUserInfo(data) {
     this._name.textContent = data.name;
     this._job.textContent  = data.about;

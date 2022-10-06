@@ -1,11 +1,11 @@
 export default class Card {
-  constructor({data, handleCardClick, handleCardDelete}, templateSelector) {
+  constructor({data, ownerId, handleCardClick, handleCardDelete}, templateSelector) {
     this._name = data.name;
     this._link = data.link;
     this._likes = data.likes;
     this._id = data._id;
-    this._userId = data.userId;
-    this._ownerId = data.ownerId;
+    this._cardOwnerId = data.owner._id;
+    this._ownerId = ownerId;
     this._handleCardClick = handleCardClick;
     this._templateSelector = templateSelector;
     this._handleCardDelete = handleCardDelete;
@@ -40,7 +40,7 @@ export default class Card {
     this._likeCounter = this._card.querySelector('.element__counter');
     this._likeCounter.textContent = `${this._likes.length}`;
     this._setEventListeners();
-    this._handleDeleteBtnState;
+    this._handleDeleteBtnState();
     return this._card;
   };
 
@@ -54,7 +54,7 @@ export default class Card {
   }
 
   _handleDeleteBtnState() {
-    if (this._userId !== this._ownerId) {
+    if (this._cardOwnerId !== this._ownerId) {
       this._deleteBtn.remove();
       this._deleteBtn = null;
     }
