@@ -13,6 +13,10 @@ export default class Section {
   };
 
   addItem(card) {
-    this._container.prepend(card);
+    this._container.append(card);
   };
+
+  addNewItem(card) {
+    this._container.prepend(card);
+  }
 };

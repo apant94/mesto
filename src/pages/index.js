@@ -38,8 +38,8 @@ const createCard = (item, userId) => {
 
 // создаем секцию с карточками
 const cardsList = new Section({ 
-  renderer: (card) => {
-    cardsList.addItem(createCard(card));
+  renderer: (card, userId) => {
+    cardsList.addItem(createCard(card, userId));
   },
 }, '.elements__list');
 
@@ -68,7 +68,7 @@ const popupAddCard = new PopupWithForm({ popupElement: popupAdd,
     api.setCard(cardData)
     .then((card) => {
       const newCard = createCard(card, userId);
-      cardsList.addItem(newCard);
+      cardsList.addNewItem(newCard);
       popupAddCard.close();
     })
     .catch((err) => {
