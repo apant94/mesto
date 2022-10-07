@@ -146,6 +146,8 @@ popupAvatar.setEventListeners();
 // вешаем событие на кнопку редактирования аватара
 btnEditAvatar.addEventListener('click', () => {
   popupAvatar.open();
+  validationPopupAvatar.disableButton();
+  validationPopupAvatar.resetError();
 });
 
 // реализуем форму удаления карточки
@@ -169,6 +171,8 @@ const validationPopupEdit = new FormValidator(configValidation, '#popup-edit');
 validationPopupEdit.enableValidation();
 const validationPopupAdd = new FormValidator(configValidation, '#popup-add');
 validationPopupAdd.enableValidation();
+const validationPopupAvatar = new FormValidator(configValidation, '#popup-edit-avatar');
+validationPopupAvatar.enableValidation();
 
 
 
