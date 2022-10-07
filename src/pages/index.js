@@ -24,6 +24,7 @@ const userInfo = new UserInfo({ nameSelector: nameProfile, jobSelector: jobProfi
 
 // создаем карточку
 const createCard = (item, userId) => {
+  console.log(userId);
   const card = new Card({data: item,
     ownerId: userId,
     handleCardClick: (data) => {
@@ -32,21 +33,42 @@ const createCard = (item, userId) => {
     handleCardDelete: (card) => {
       popupDeleteCard.open(card);
     },
+    handleLike: (card) => {
+      if (card.isLiked()) {
+        console.log(card.isLiked());
+        api.deleteLike(card.getId())
+        .then((res) => {
+          card.deleteLike(res.likes);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+      } else {
+        console.log(card.isLiked());
+        api.putLike(card.getId())
+        .then((res) => {
+          card.putLike(res.likes);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+      }
+    },
   }, '#element').generateCard();
   return card;
 };
 
 // создаем секцию с карточками
 const cardsList = new Section({ 
-  renderer: (card, userId) => {
+  renderer: (card) => {
     cardsList.addItem(createCard(card, userId));
   },
 }, '.elements__list');
 
 // функция загрузки изначальный карточек
-const renderInitialCards = (cards, userData) => {
-  cardsList.renderItems(cards, userData._id);
-};
+// const renderInitialCards = (cards, userData) => {
+//   cardsList.renderItems(cards, userData._id);
+// };
 
 // получаем данные профиля и карточки с сервера
 Promise.all([api.getCards(), api.getProfileInfo()])
@@ -55,7 +77,7 @@ Promise.all([api.getCards(), api.getProfileInfo()])
   userId = userData._id;
   // userInfo.setUserAvatar(userData);
   // выведем изначальные карточки на страницу
-  renderInitialCards(cards, userId);
+  cardsList.renderItems(cards, userData._id)
 });
 
 // реализуем попап открытия фото
@@ -74,9 +96,6 @@ const popupAddCard = new PopupWithForm({ popupElement: popupAdd,
     .catch((err) => {
       console.log(err);
     })
-    // const newCard = createCard({ name: placeInput.value, link: linkInput.value });
-    // cardsList.addItem(newCard);
-    // popupAddCard.close();
   }
 });
 popupAddCard.setEventListeners();

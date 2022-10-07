@@ -1,5 +1,5 @@
 export default class Card {
-  constructor({data, ownerId, handleCardClick, handleCardDelete}, templateSelector) {
+  constructor({data, ownerId, handleCardClick, handleCardDelete, handleLike}, templateSelector) {
     this._name = data.name;
     this._link = data.link;
     this._likes = data.likes;
@@ -7,8 +7,9 @@ export default class Card {
     this._cardOwnerId = data.owner._id;
     this._ownerId = ownerId;
     this._handleCardClick = handleCardClick;
-    this._templateSelector = templateSelector;
     this._handleCardDelete = handleCardDelete;
+    this._handleLike = handleLike;
+    this._templateSelector = templateSelector;
   };
 
   _getTemplate() {
@@ -17,8 +18,8 @@ export default class Card {
   };
 
   _setEventListeners() {
-    this._card.querySelector('.element__like').addEventListener('click', (evt) => {
-      this._handleLikeButton(evt);
+    this._likeBtn.addEventListener('click', () => {
+      this._handleLike(this);
     });
 
     this._deleteBtn.addEventListener('click', () => {
@@ -37,10 +38,12 @@ export default class Card {
     this._photo.src = this._link;
     this._photo.alt = this._name;
     this._deleteBtn = this._card.querySelector('.element__trash');
+    this._likeBtn = this._card.querySelector('.element__like');
     this._likeCounter = this._card.querySelector('.element__counter');
-    this._likeCounter.textContent = `${this._likes.length}`;
     this._setEventListeners();
+    this._handleLikeBtnState();
     this._handleDeleteBtnState();
+    this._handleLikeCounter(this._likes);
     return this._card;
   };
 
@@ -60,11 +63,36 @@ export default class Card {
     }
   }
 
-  _handleLikeButton(evt) {
-    evt.target.classList.toggle('element__like_active');
-  };
+  _handleLikeBtnState() {
+    if (this.isLiked()) {
+      this._likeBtn.classList.add('element__like_active');
+    }
+  }
 
-  // _handleCardRemoveButton() {
-  //   this._card.remove();
+  _handleLikeCounter(likes) {
+    this._likeCounter.textContent = likes.length;
+  }
+
+  // проверка  лайка
+  isLiked() {
+    return this._likes.find((like) => like._id === this._ownerId);
+  }
+
+  putLike(likes) {
+    this._likeBtn.classList.add('element__like_active');
+    this.isLiked(true);
+    this._handleLikeCounter(likes);
+    this._likes = likes;
+  }
+
+  deleteLike(likes) {
+    this._likeBtn.classList.remove('element__like_active');
+    this.isLiked(false);
+    this._handleLikeCounter(likes);
+    this._likes = likes;
+  }
+
+  // _handleLike(evt) {
+  //   evt.target.classList.toggle('element__like_active');
   // };
 };
