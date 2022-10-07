@@ -78,6 +78,7 @@ export default class Card {
     return this._likes.find((like) => like._id === this._ownerId);
   }
 
+  // ставим лайк
   putLike(likes) {
     this._likeBtn.classList.add('element__like_active');
     this.isLiked(true);
@@ -85,14 +86,11 @@ export default class Card {
     this._likes = likes;
   }
 
+  // убираем лайк
   deleteLike(likes) {
     this._likeBtn.classList.remove('element__like_active');
     this.isLiked(false);
     this._handleLikeCounter(likes);
     this._likes = likes;
   }
-
-  // _handleLike(evt) {
-  //   evt.target.classList.toggle('element__like_active');
-  // };
 };

@@ -64,11 +64,6 @@ const cardsList = new Section({
   },
 }, '.elements__list');
 
-// функция загрузки изначальный карточек
-// const renderInitialCards = (cards, userData) => {
-//   cardsList.renderItems(cards, userData._id);
-// };
-
 // получаем данные профиля и карточки с сервера
 Promise.all([api.getCards(), api.getProfileInfo()])
 .then(([cards, userData]) => {
