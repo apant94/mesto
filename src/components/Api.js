@@ -39,6 +39,17 @@ export default class Api {
       .then(this._checkStatus);
   };
 
+  setAvatar(data) {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: data.avatar,
+      })
+    })
+    .then(this._checkStatus);
+  }
+
   setCard(data) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
@@ -71,17 +82,6 @@ export default class Api {
     return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: 'DELETE',
       headers: this._headers
-    })
-    .then(this._checkStatus);
-  }
-
-  setProfilePhoto(data) {
-    return fetch(`${this._baseUrl}/users/me/avatar`, {
-      method: 'PATCH',
-      headers: this._headers,
-      body: JSON.stringify({
-        avatar: data.avatar,
-      })
     })
     .then(this._checkStatus);
   }

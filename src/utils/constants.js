@@ -9,10 +9,12 @@ const configValidation = {
 
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
+const popupEditAvatar = document.querySelector('.popup_edit-avatar')
 const popupDelete = document.querySelector('.popup_delete');
 
 const btnEdit = document.querySelector('.profile__edit');
 const btnAdd = document.querySelector('.profile__add');
+const btnEditAvatar = document.querySelector('.profile__edit-avatar');
 
 const nameInput = popupEdit.querySelector('.popup__text_value_name');
 const jobInput = popupEdit.querySelector('.popup__text_value_job');
@@ -25,4 +27,4 @@ const linkInput = popupAdd.querySelector('.popup__text_value_link');
 
 const popupImage = document.querySelector('.popup_image');
 
-export { configValidation, popupEdit, popupAdd, popupDelete, btnEdit, btnAdd, nameInput, jobInput, nameProfile, jobProfile, avatarProfile, placeInput, linkInput, popupImage }; 
+export { configValidation, popupEdit, popupAdd, popupEditAvatar, popupDelete, btnEdit, btnAdd, btnEditAvatar, nameInput, jobInput, nameProfile, jobProfile, avatarProfile, placeInput, linkInput, popupImage };
