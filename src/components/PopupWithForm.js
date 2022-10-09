@@ -6,6 +6,7 @@ export default class PopupWithForm extends Popup {
   this._handleFormSubmit = handleFormSubmit;
   this._formElement = this._popupElement.querySelector('.popup__container');
   this._inputList = this._popupElement.querySelectorAll('.popup__text');
+  this._submitBtn = this._popupElement.querySelector('.popup__submit');
   };
 
   _getInputValues() {
@@ -28,4 +29,9 @@ export default class PopupWithForm extends Popup {
     super.close();
     this._formElement.reset();
   };
+
+  // стилизация кнопки при пинге во время сабмита
+  setLoading(text) {
+    this._submitBtn.textContent = text;
+  }
 }

@@ -90,6 +90,9 @@ const popupAddCard = new PopupWithForm({ popupElement: popupAdd,
     .catch((err) => {
       console.log(err);
     })
+    .finally(() => {
+      popupAddCard.setLoading('Сохранение...');
+    })
   }
 });
 popupAddCard.setEventListeners();
@@ -112,7 +115,10 @@ const popupEditProfile = new PopupWithForm({
     })
     .catch((err) => {
       console.log(err);
-    });
+    })
+    .finally(() => {
+      popupEditProfile.setLoading('Сохранение...');
+    })
   }
 });
 popupEditProfile.setEventListeners();
@@ -125,6 +131,7 @@ btnEdit.addEventListener('click', () => {
   jobInput.value = info.about;
   popupEditProfile.open();
   validationPopupEdit.resetError();
+  validationPopupEdit.disableButton();
 });
 
 // реализуем попап редактирования аватара
@@ -138,7 +145,10 @@ const popupAvatar = new PopupWithForm({
     })
     .catch((err) => {
       console.log(err);
-    });
+    })
+    .finally(() => {
+      popupAvatar.setLoading('Сохранение...');
+    })
   }
 });
 popupAvatar.setEventListeners();
@@ -173,6 +183,3 @@ const validationPopupAdd = new FormValidator(configValidation, '#popup-add');
 validationPopupAdd.enableValidation();
 const validationPopupAvatar = new FormValidator(configValidation, '#popup-edit-avatar');
 validationPopupAvatar.enableValidation();
-
-
-
