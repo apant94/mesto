@@ -1,12 +1,3 @@
-const configValidation = {
-  formSelector: '.popup__container',
-  inputSelector: '.popup__text',
-  submitButtonSelector: '.popup__submit',
-  inactiveButtonClass: 'popup__submit_inactive',
-  inputErrorClass: 'popup__text_type_error',
-  errorClass: 'popup__text-error'
-};
-
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 const popupEditAvatar = document.querySelector('.popup_edit-avatar')
@@ -27,4 +18,4 @@ const linkInput = popupAdd.querySelector('.popup__text_value_link');
 
 const popupImage = document.querySelector('.popup_image');
 
-export { configValidation, popupEdit, popupAdd, popupEditAvatar, popupDelete, btnEdit, btnAdd, btnEditAvatar, nameInput, jobInput, nameProfile, jobProfile, avatarProfile, placeInput, linkInput, popupImage };
+export { popupEdit, popupAdd, popupEditAvatar, popupDelete, btnEdit, btnAdd, btnEditAvatar, nameInput, jobInput, nameProfile, jobProfile, avatarProfile, placeInput, linkInput, popupImage };

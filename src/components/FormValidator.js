@@ -1,4 +1,11 @@
-import { configValidation } from '../utils/constants.js';
+const configValidation = {
+  formSelector: '.popup__container',
+  inputSelector: '.popup__text',
+  submitButtonSelector: '.popup__submit',
+  inactiveButtonClass: 'popup__submit_inactive',
+  inputErrorClass: 'popup__text_type_error',
+  errorClass: 'popup__text-error'
+};
 
 export default class FormValidator {
   constructor(configValidation, formElement) {

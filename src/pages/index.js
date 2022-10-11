@@ -23,9 +23,9 @@ let userId;
 const userInfo = new UserInfo({ nameSelector: nameProfile, jobSelector: jobProfile, avatarSelector: avatarProfile});
 
 // создаем карточку
-const createCard = (item, userId) => {
+const createCard = (item) => {
   const card = new Card({data: item,
-    ownerId: userId,
+    ownerId: userInfo.getUserInfo().id,
     handleCardClick: (data) => {
       imagePopup.open(data);
     },
@@ -60,7 +60,7 @@ const createCard = (item, userId) => {
 // создаем секцию с карточками
 const cardsList = new Section({ 
   renderer: (card) => {
-    cardsList.addItem(createCard(card, userId));
+    cardsList.addItem(createCard(card));
   },
 }, '.elements__list');
 
@@ -71,7 +71,7 @@ Promise.all([api.getCards(), api.getProfileInfo()])
   userInfo.setAvatar(userData);
   userId = userData._id;
   // выведем изначальные карточки на страницу
-  cardsList.renderItems(cards, userData._id)
+  cardsList.renderItems(cards)
 });
 
 // реализуем попап открытия фото

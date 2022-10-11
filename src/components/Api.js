@@ -1,5 +1,3 @@
-import { info } from "autoprefixer";
-
 export default class Api {
   constructor(baseUrl, { headers }) {
     this._baseUrl = baseUrl;
