@@ -7,7 +7,7 @@ const configValidation = {
   errorClass: 'popup__text-error'
 };
 
-export default class FormValidator {
+class FormValidator {
   constructor(configValidation, formElement) {
     this._formSelector = configValidation.formSelector;
     this._inputSelector = configValidation.inputSelector;
@@ -99,3 +99,5 @@ export default class FormValidator {
     this._setEventListeners();
   };
 }
+
+export { configValidation, FormValidator };

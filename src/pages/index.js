@@ -1,8 +1,8 @@
 import './index.css';
-import { configValidation, popupEdit, popupAdd, popupEditAvatar, popupDelete, btnEdit, btnAdd, btnEditAvatar, nameInput, jobInput, nameProfile, jobProfile, avatarProfile, popupImage } from '../utils/constants.js';
+import { btnEdit, btnAdd, btnEditAvatar, nameInput, jobInput, nameProfile, jobProfile, avatarProfile, popupImage } from '../utils/constants.js';
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
-import FormValidator from '../components/FormValidator.js';
+import { configValidation, FormValidator } from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithConfirm from '../components/PopupWithConfirm.js';
@@ -34,7 +34,6 @@ const createCard = (item) => {
     },
     handleLike: (card) => {
       if (card.isLiked()) {
-        console.log(card.isLiked());
         api.deleteLike(card.getId())
         .then((res) => {
           card.deleteLike(res.likes);
@@ -43,7 +42,6 @@ const createCard = (item) => {
           console.log(err);
         })
       } else {
-        console.log(card.isLiked());
         api.putLike(card.getId())
         .then((res) => {
           card.putLike(res.likes);
@@ -75,11 +73,11 @@ Promise.all([api.getCards(), api.getProfileInfo()])
 });
 
 // реализуем попап открытия фото
-const imagePopup = new PopupWithImage(popupImage);
+const imagePopup = new PopupWithImage('.popup_image');
 imagePopup.setEventListeners();
 
 // реализуем попап добавления карточки
-const popupAddCard = new PopupWithForm({ popupElement: popupAdd,
+const popupAddCard = new PopupWithForm({ popupSelector: '.popup_add',
   handleFormSubmit: (cardData) => {
     api.setCard(cardData)
     .then((card) => {
@@ -106,7 +104,7 @@ btnAdd.addEventListener('click', () => {
 
 // реализуем форму редактирования профиля
 const popupEditProfile = new PopupWithForm({ 
-  popupElement: popupEdit,
+  popupSelector: '.popup_edit',
   handleFormSubmit: (inputValues) => {
     userInfo.setUserInfo(inputValues)
     api.setProfileInfo(inputValues)
@@ -136,7 +134,7 @@ btnEdit.addEventListener('click', () => {
 
 // реализуем попап редактирования аватара
 const popupAvatar = new PopupWithForm({
-  popupElement: popupEditAvatar,
+  popupSelector: '.popup_edit-avatar',
   handleFormSubmit: (inputValue) => {
     userInfo.setAvatar(inputValue);
     api.setAvatar(inputValue)
@@ -162,7 +160,7 @@ btnEditAvatar.addEventListener('click', () => {
 
 // реализуем форму удаления карточки
 const popupDeleteCard = new PopupWithConfirm({
-  popupElement: popupDelete,
+  popupSelector: '.popup_delete',
   handleFormSubmit: (card) => {
     api.deleteCard(card.getId())
     .then(() => {
