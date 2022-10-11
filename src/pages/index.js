@@ -1,5 +1,5 @@
 import './index.css';
-import { btnEdit, btnAdd, btnEditAvatar, nameInput, jobInput, nameProfile, jobProfile, avatarProfile, popupImage } from '../utils/constants.js';
+import { btnEdit, btnAdd, btnEditAvatar, nameInput, jobInput } from '../utils/constants.js';
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
 import { configValidation, FormValidator } from '../components/FormValidator.js';
@@ -20,7 +20,7 @@ const api = new Api('https://mesto.nomoreparties.co/v1/cohort-51', {
 let userId;
 
 // подтягиваем данные со страницы в профиль
-const userInfo = new UserInfo({ nameSelector: nameProfile, jobSelector: jobProfile, avatarSelector: avatarProfile});
+const userInfo = new UserInfo({ nameSelector: '.profile__name', jobSelector: '.profile__job', avatarSelector: '.profile__avatar'});
 
 // создаем карточку
 const createCard = (item) => {
@@ -79,6 +79,7 @@ imagePopup.setEventListeners();
 // реализуем попап добавления карточки
 const popupAddCard = new PopupWithForm({ popupSelector: '.popup_add',
   handleFormSubmit: (cardData) => {
+    popupAddCard.setLoading('Сохранение...');
     api.setCard(cardData)
     .then((card) => {
       const newCard = createCard(card, userId);
@@ -89,7 +90,7 @@ const popupAddCard = new PopupWithForm({ popupSelector: '.popup_add',
       console.log(err);
     })
     .finally(() => {
-      popupAddCard.setLoading('Сохранение...');
+      popupAddCard.setLoading('Создать');
     })
   }
 });
@@ -106,16 +107,17 @@ btnAdd.addEventListener('click', () => {
 const popupEditProfile = new PopupWithForm({ 
   popupSelector: '.popup_edit',
   handleFormSubmit: (inputValues) => {
-    userInfo.setUserInfo(inputValues)
+    popupEditProfile.setLoading('Сохранение...');
     api.setProfileInfo(inputValues)
     .then(() => {
+      userInfo.setUserInfo(inputValues);
       popupEditProfile.close();
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      popupEditProfile.setLoading('Сохранение...');
+      popupEditProfile.setLoading('Сохранить');
     })
   }
 });
@@ -136,6 +138,7 @@ btnEdit.addEventListener('click', () => {
 const popupAvatar = new PopupWithForm({
   popupSelector: '.popup_edit-avatar',
   handleFormSubmit: (inputValue) => {
+    popupAvatar.setLoading('Сохранение...');
     userInfo.setAvatar(inputValue);
     api.setAvatar(inputValue)
     .then(() => {
@@ -145,7 +148,7 @@ const popupAvatar = new PopupWithForm({
       console.log(err);
     })
     .finally(() => {
-      popupAvatar.setLoading('Сохранение...');
+      popupAvatar.setLoading('Сохранить');
     })
   }
 });
