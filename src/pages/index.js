@@ -1,8 +1,8 @@
 import './index.css';
-import { btnEdit, btnAdd, btnEditAvatar, nameInput, jobInput } from '../utils/constants.js';
+import { configValidation, btnEdit, btnAdd, btnEditAvatar, nameInput, jobInput } from '../utils/constants.js';
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
-import { configValidation, FormValidator } from '../components/FormValidator.js';
+import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithConfirm from '../components/PopupWithConfirm.js';
@@ -16,8 +16,6 @@ const api = new Api('https://mesto.nomoreparties.co/v1/cohort-51', {
     'Content-Type': 'application/json'
   }
 });
-
-let userId;
 
 // подтягиваем данные со страницы в профиль
 const userInfo = new UserInfo({ nameSelector: '.profile__name', jobSelector: '.profile__job', avatarSelector: '.profile__avatar'});
@@ -67,7 +65,6 @@ Promise.all([api.getCards(), api.getProfileInfo()])
 .then(([cards, userData]) => {
   userInfo.setUserInfo(userData);
   userInfo.setAvatar(userData);
-  userId = userData._id;
   // выведем изначальные карточки на страницу
   cardsList.renderItems(cards)
 });
@@ -82,7 +79,7 @@ const popupAddCard = new PopupWithForm({ popupSelector: '.popup_add',
     popupAddCard.setLoading('Сохранение...');
     api.setCard(cardData)
     .then((card) => {
-      const newCard = createCard(card, userId);
+      const newCard = createCard(card);
       cardsList.addNewItem(newCard);
       popupAddCard.close();
     })
